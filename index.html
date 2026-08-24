@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Insight Links Ad Diagnosis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+</head>
+<body>
+<style>
+:root{
+  --ground:#F4F6F8;
+  --surface:#FFFFFF;
+  --surface-2:#EDF1F4;
+  --ink:#111820;
+  --ink-2:#3D4956;
+  --ink-3:#6B7885;
+  --rule:#D6DEE4;
+  --rule-2:#E7EDF1;
+  --accent:#0B6E6B;
+  --accent-soft:#D3E7E5;
+  --good:#1F6B45;
+  --good-soft:#D6E9DD;
+  --warn:#8A6612;
+  --warn-soft:#F0E6CC;
+  --crit:#95302C;
+  --crit-soft:#F2DAD8;
+  --shadow:0 1px 2px rgba(17,24,32,.05),0 8px 24px -16px rgba(17,24,32,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1116;
+    --surface:#151B22;
+    --surface-2:#1D242C;
+    --ink:#E9EEF2;
+    --ink-2:#B4C0CA;
+    --ink-3:#8593A0;
+    --rule:#2A333D;
+    --rule-2:#222A33;
+    --accent:#4FC3BC;
+    --accent-soft:#153733;
+    --good:#63C48D;
+    --good-soft:#132B1F;
+    --warn:#D4A93F;
+    --warn-soft:#2E2513;
+    --crit:#E58B85;
+    --crit-soft:#33191A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1116;
+  --surface:#151B22;
+  --surface-2:#1D242C;
+  --ink:#E9EEF2;
+  --ink-2:#B4C0CA;
+  --ink-3:#8593A0;
+  --rule:#2A333D;
+  --rule-2:#222A33;
+  --accent:#4FC3BC;
+  --accent-soft:#153733;
+  --good:#63C48D;
+  --good-soft:#132B1F;
+  --warn:#D4A93F;
+  --warn-soft:#2E2513;
+  --crit:#E58B85;
+  --crit-soft:#33191A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px 96px}
+
+h1,h2,h3,.eyebrow,.chip,.num,th,.axis,.legend,.tag{font-family:Archivo,"Helvetica Neue",Arial,sans-serif}
+.mono,td.n,.num,.stat-v,.axis,.rng-v{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+header.top{padding:64px 0 40px;border-bottom:1px solid var(--rule)}
+.eyebrow{
+  font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+}
+.eyebrow span.sep{color:var(--rule);font-weight:500}
+h1{
+  font-size:clamp(34px,6vw,58px);font-weight:700;line-height:1.02;letter-spacing:-.022em;
+  margin:18px 0 0;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(18px,2.2vw,21px);color:var(--ink-2);max-width:62ch;margin:20px 0 0;
+}
+.metarow{
+  display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:28px;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);
+}
+
+/* ---------- verdict cards ---------- */
+.verdicts{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px;margin:40px 0 0}
+.vcard{
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;
+}
+.vcard .stat-v{font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.vcard .stat-l{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.chip{
+  align-self:flex-start;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 8px;border-radius:2px;
+}
+.c-crit{background:var(--crit-soft);color:var(--crit)}
+.c-good{background:var(--good-soft);color:var(--good)}
+.c-warn{background:var(--warn-soft);color:var(--warn)}
+.c-acc{background:var(--accent-soft);color:var(--accent)}
+
+/* ---------- sections ---------- */
+section{padding:64px 0 0;border-top:1px solid var(--rule-2);margin-top:56px}
+section:first-of-type{border-top:none}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:6px}
+h2{font-size:clamp(23px,3vw,31px);font-weight:600;letter-spacing:-.018em;margin:0;text-wrap:balance}
+h3{font-size:15px;font-weight:600;letter-spacing:.02em;margin:36px 0 12px;color:var(--ink)}
+.lede{max-width:66ch;color:var(--ink-2);margin:14px 0 0}
+p{max-width:66ch;margin:16px 0 0}
+p.wide{max-width:none}
+strong{font-weight:600;color:var(--ink)}
+.mono-i{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--surface-2);padding:1px 5px;border-radius:2px}
+
+.panel{
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:26px;margin-top:28px;box-shadow:var(--shadow);
+}
+.panel-t{
+  font-family:Archivo,sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:22px;
+}
+
+/* ---------- age chart ---------- */
+.agechart{display:grid;gap:2px}
+.agerow{
+  display:grid;grid-template-columns:64px 1fr 92px 82px;gap:16px;align-items:center;
+  padding:11px 0;border-bottom:1px solid var(--rule-2);
+}
+.agerow:last-child{border-bottom:none}
+.agerow.hi{background:var(--crit-soft);margin:0 -12px;padding-left:12px;padding-right:12px;border-radius:2px;border-bottom-color:transparent}
+.agelab{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink)}
+.bars{display:flex;flex-direction:column;gap:4px;min-width:0}
+.bar{height:11px;position:relative;background:var(--surface-2);border-radius:1px}
+.bar i{position:absolute;inset:0 auto 0 0;width:var(--w);border-radius:1px;display:block}
+.bar.leads i{background:var(--accent)}
+.bar.spend i{background:var(--ink-3);opacity:.55}
+.agerow.hi .bar.leads i{background:var(--crit)}
+.agerow.hi .bar{background:color-mix(in srgb,var(--crit) 14%,transparent)}
+.qual{font-family:"IBM Plex Mono",monospace;font-size:13px;text-align:right;color:var(--ink-2)}
+.qual b{color:var(--ink);font-weight:600}
+.verdict-cell{font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:right;color:var(--ink-3)}
+.legend{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:18px;font-size:12px;color:var(--ink-3);font-weight:500}
+.legend i{display:inline-block;width:22px;height:9px;border-radius:1px;margin-right:7px;vertical-align:middle}
+.legend .l1{background:var(--accent)}
+.legend .l2{background:var(--ink-3);opacity:.55}
+.headrow{display:grid;grid-template-columns:64px 1fr 92px 82px;gap:16px;padding-bottom:8px;border-bottom:1px solid var(--rule);
+  font-family:Archivo,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.headrow span:nth-child(3),.headrow span:nth-child(4){text-align:right}
+
+/* ---------- tables ---------- */
+.tscroll{overflow-x:auto;margin-top:24px;border:1px solid var(--rule);border-radius:3px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{
+  font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+  text-align:left;padding:13px 16px;border-bottom:1px solid var(--rule);white-space:nowrap;background:var(--surface-2);
+}
+th.r,td.n{text-align:right}
+td{padding:12px 16px;border-bottom:1px solid var(--rule-2);color:var(--ink-2);white-space:nowrap}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--ink)}
+tbody tr:last-child td{border-bottom:none}
+td.name{color:var(--ink);font-weight:600;font-family:Archivo,sans-serif;font-size:13.5px}
+tr.flag td{background:var(--crit-soft)}
+tr.win td{background:var(--good-soft)}
+
+/* ---------- slope charts ---------- */
+.slopes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;margin-top:26px}
+.slope{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:22px;box-shadow:var(--shadow)}
+.slope h4{font-family:Archivo,sans-serif;font-size:13px;font-weight:600;margin:0 0 4px;color:var(--ink);letter-spacing:.01em}
+.slope .sub{font-size:12.5px;color:var(--ink-3);margin:0 0 14px;font-family:"IBM Plex Mono",monospace}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.sl-line{fill:none;stroke-width:2}
+.sl-dot{r:3.4}
+.sl-lab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;fill:var(--ink-3)}
+.sl-key{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:600}
+.axis{font-size:10px;fill:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
+.gridline{stroke:var(--rule-2);stroke-width:1}
+
+/* ---------- range plot ---------- */
+.rngwrap{display:grid;gap:20px;margin-top:8px}
+.rng{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center}
+.rng-n{font-family:Archivo,sans-serif;font-size:13px;font-weight:600;color:var(--ink)}
+.rng-n small{display:block;font-family:"IBM Plex Mono",monospace;font-weight:400;font-size:11px;color:var(--ink-3);letter-spacing:0}
+.track{position:relative;height:30px}
+.track:before{content:"";position:absolute;left:0;right:0;top:14px;height:2px;background:var(--rule-2)}
+.span{position:absolute;top:9px;height:12px;border-radius:6px;background:var(--accent);opacity:.28}
+.mk{position:absolute;top:3px;width:2px;height:24px;background:var(--ink-2)}
+.mk.aug{background:var(--accent);width:3px}
+.mk b{
+  position:absolute;top:-17px;left:50%;transform:translateX(-50%);
+  font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;color:var(--ink-3);white-space:nowrap
+}
+.mk.aug b{color:var(--accent);font-weight:600}
+.rngaxis{display:flex;justify-content:space-between;margin-left:168px;margin-top:4px;
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3)}
+
+/* ---------- share compare ---------- */
+.cmp{display:grid;gap:26px;margin-top:8px}
+.cmprow{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center}
+.cmpname{font-family:Archivo,sans-serif;font-size:14px;font-weight:600;color:var(--ink)}
+.cmpname small{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:400;color:var(--ink-3)}
+.cmpbars{display:flex;flex-direction:column;gap:9px}
+.cb{display:grid;grid-template-columns:78px 1fr 60px;gap:12px;align-items:center;font-size:11px}
+.cb .k{font-family:Archivo,sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-size:10px}
+.cb .t{height:12px;background:var(--surface-2);border-radius:1px;position:absolute;inset:0}
+.cb .tw{position:relative;height:12px}
+.cb .f{position:absolute;top:0;left:0;height:12px;width:var(--w);border-radius:1px}
+.cb .v{font-family:"IBM Plex Mono",monospace;font-size:12px;text-align:right;color:var(--ink)}
+.f-spend{background:var(--ink-3);opacity:.5}
+.f-qual{background:var(--accent)}
+
+/* ---------- actions ---------- */
+.actions{display:grid;gap:12px;margin-top:28px}
+.act{
+  display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:start;
+  background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);
+  border-radius:3px;padding:18px 20px;box-shadow:var(--shadow);
+}
+.act.done{border-left-color:var(--good)}
+.act.later{border-left-color:var(--ink-3)}
+.act .k{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--ink-3);padding-top:2px}
+.act .b{min-width:0}
+.act .b h4{font-family:Archivo,sans-serif;font-size:15px;font-weight:600;margin:0 0 5px;color:var(--ink)}
+.act .b p{margin:0;font-size:14.5px;color:var(--ink-2);max-width:60ch}
+
+.callout{
+  background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);
+  border-radius:3px;padding:22px 24px;margin-top:28px;
+}
+.callout .panel-t{color:var(--accent);margin-bottom:10px}
+.callout p{margin:0;color:var(--ink);max-width:70ch}
+
+footer{margin-top:64px;padding-top:32px;border-top:1px solid var(--rule);color:var(--ink-3);font-size:14px}
+footer p{max-width:74ch}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (max-width:640px){
+  .agerow,.headrow{grid-template-columns:52px 1fr 74px;gap:10px}
+  .verdict-cell,.headrow span:nth-child(4){display:none}
+  .rng,.cmprow{grid-template-columns:1fr;gap:8px}
+  .rngaxis{margin-left:0}
+  .act{grid-template-columns:auto 1fr}
+  .act .chip{grid-column:2}
+}
+@media (prefers-reduced-motion:no-preference){
+  .vcard,.panel,.slope,.act{animation:rise .5s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">
+    <span>Insight Links</span><span class="sep">/</span><span>Meta Ads diagnosis</span>
+    <span class="sep">/</span><span>Aug 23, 2026</span>
+  </div>
+  <h1>Retirees were eating the lead volume. That leak is closed.</h1>
+  <p class="standfirst">
+    Your read on the call was right, so I went and proved it. The 65-plus bucket was
+    producing 28% of August leads on 10% of spend, and almost none of them qualified.
+    Separately, cost per lead has risen on the qualified campaign, and I traced that to
+    the signup page rather than the audience or the auction.
+  </p>
+  <div class="metarow">
+    <span>Source: Meta Ads API, Insight Links account</span>
+    <span>Window: May 1 to Aug 22, 2026</span>
+    <span>Every figure re-checked against raw API data</span>
+  </div>
+</header>
+
+<div class="verdicts">
+  <div class="vcard">
+    <span class="chip c-crit">Root cause</span>
+    <span class="stat-v">28%</span>
+    <span class="stat-l">of August leads came from the 65-plus bucket, on 10.3% of spend, at a 1.9% qualified rate.</span>
+  </div>
+  <div class="vcard">
+    <span class="chip c-good">Fixed</span>
+    <span class="stat-v">0</span>
+    <span class="stat-l">65-plus leads since Aug 20. I switched Advantage Audience off and capped every live ad set.</span>
+  </div>
+  <div class="vcard">
+    <span class="chip c-warn">Open</span>
+    <span class="stat-v">-41%</span>
+    <span class="stat-l">drop in signup-page conversion on CW Qualified Broad, while media got 24% cheaper.</span>
+  </div>
+  <div class="vcard">
+    <span class="chip c-acc">Opportunity</span>
+    <span class="stat-v">-31%</span>
+    <span class="stat-l">cost per qualified lead I can get by protecting DCT_118's budget from DCT_112.</span>
+  </div>
+</div>
+
+<!-- ============ 1. AGE ============ -->
+<section>
+  <div class="shead"><h2>Where the junk leads came from</h2><span class="chip c-crit">Confirmed</span></div>
+  <p class="lede">
+    This is the chart I would start with, because it explains most of the account. The
+    teal bar is each age group's share of leads. The grey bar is its share of spend.
+    Wherever the two roughly match, the account is behaving. In the 65-plus row they come
+    apart badly.
+  </p>
+
+  <div class="panel">
+    <div class="panel-t">Account level by age, Aug 1 to 22</div>
+    <div class="legend">
+      <span><i class="l1"></i>Share of leads</span>
+      <span><i class="l2"></i>Share of spend</span>
+    </div>
+    <div class="headrow"><span>Age</span><span>Leads vs spend share</span><span>Qualified</span><span>Read</span></div>
+    <div class="agechart">
+      <div class="agerow">
+        <span class="agelab">18-24</span>
+        <div class="bars"><span class="bar leads"><i style="--w:0.5%"></i></span><span class="bar spend"><i style="--w:0.3%"></i></span></div>
+        <span class="qual"><b>0%</b><br>0 of 15</span>
+        <span class="verdict-cell">No volume</span>
+      </div>
+      <div class="agerow">
+        <span class="agelab">25-34</span>
+        <div class="bars"><span class="bar leads"><i style="--w:9.9%"></i></span><span class="bar spend"><i style="--w:17.4%"></i></span></div>
+        <span class="qual"><b>10.6%</b><br>32 of 302</span>
+        <span class="verdict-cell">Expensive, good</span>
+      </div>
+      <div class="agerow">
+        <span class="agelab">35-44</span>
+        <div class="bars"><span class="bar leads"><i style="--w:19.7%"></i></span><span class="bar spend"><i style="--w:28.0%"></i></span></div>
+        <span class="qual"><b>8.7%</b><br>52 of 598</span>
+        <span class="verdict-cell">Solid</span>
+      </div>
+      <div class="agerow">
+        <span class="agelab">45-54</span>
+        <div class="bars"><span class="bar leads"><i style="--w:28.0%"></i></span><span class="bar spend"><i style="--w:30.0%"></i></span></div>
+        <span class="qual"><b>8.2%</b><br>70 of 851</span>
+        <span class="verdict-cell">Core</span>
+      </div>
+      <div class="agerow">
+        <span class="agelab">55-64</span>
+        <div class="bars"><span class="bar leads"><i style="--w:13.5%"></i></span><span class="bar spend"><i style="--w:14.0%"></i></span></div>
+        <span class="qual"><b>11.5%</b><br>47 of 410</span>
+        <span class="verdict-cell">Best rate &#10003;</span>
+      </div>
+      <div class="agerow hi">
+        <span class="agelab">65+</span>
+        <div class="bars"><span class="bar leads"><i style="--w:28.4%"></i></span><span class="bar spend"><i style="--w:10.3%"></i></span></div>
+        <span class="qual"><b>1.9%</b><br>16 of 862</span>
+        <span class="verdict-cell">The problem</span>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Retirees click at <strong>5.87% CTR</strong> against roughly 2% everywhere else, and
+    they convert on the signup page at <strong>46%</strong> against 22 to 36% for your real
+    buyers. At <strong>$1.55</strong> each they are the cheapest leads on the platform, so
+    once the campaign was optimising for cheap leads, Meta went and bought retirees. They
+    then almost never qualify.
+  </p>
+
+  <h3>Which campaigns were spending on them</h3>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Campaign</th><th class="r">65+ spend</th><th class="r">Leads</th><th class="r">CPL</th><th class="r">Qualified</th><th class="r">Qual rate</th></tr></thead>
+      <tbody>
+        <tr class="flag"><td class="name">CW Lead</td><td class="n">$600</td><td class="n">658</td><td class="n">$0.91</td><td class="n">8</td><td class="n">1.2%</td></tr>
+        <tr><td class="name">IW Lead</td><td class="n">$475</td><td class="n">128</td><td class="n">$3.71</td><td class="n">3</td><td class="n">2.3%</td></tr>
+        <tr><td class="name">DHW Lead</td><td class="n">$151</td><td class="n">48</td><td class="n">$3.15</td><td class="n">4</td><td class="n">8.3%</td></tr>
+        <tr><td class="name">DHW Qualified Broad</td><td class="n">$113</td><td class="n">28</td><td class="n">$4.04</td><td class="n">1</td><td class="n">3.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    CW Lead is where it concentrated: <strong>658 of its 830 August leads, 79%, were
+    65-plus</strong>. That one fact explains its suspiciously flat $1.25 cost per lead and
+    its slide from 4.1% to about 1% qualified. Its non-retiree buckets produced no
+    qualified leads at all in August, which is what convinced me this was the whole story
+    rather than part of it.
+  </p>
+
+  <div class="callout">
+    <div class="panel-t">The mechanism, and the fix</div>
+    <p>
+      Every ad set with an age ceiling of 65 also had <span class="mono-i">Advantage
+      Audience</span> switched on, which lets Meta deliver outside the stated age range
+      regardless of the ceiling. That is how 65-plus walked in past a 65 cap. I have paused
+      those ad sets across CW Lead, IW Lead and DHW Lead, and every live ad set is now
+      25-55 with Advantage Audience off. The delivery data backs it up: no 65-plus delivery
+      at all since Aug 20.
+    </p>
+  </div>
+
+  <h3>One correction to the fix: 55 is too tight</h3>
+  <p>
+    Capping at 55 was the right emergency move, but I think it overshoots. 55-64 is the
+    strongest cohort in the account wherever it runs, so the real line sits between 55-64
+    and 65-plus, not at 55.
+  </p>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>55-64 performance</th><th class="r">Spend</th><th class="r">Leads</th><th class="r">CPL</th><th class="r">Qualified</th><th class="r">CPQL</th><th class="r">Qual rate</th></tr></thead>
+      <tbody>
+        <tr class="win"><td class="name">DHW Lead</td><td class="n">$353</td><td class="n">114</td><td class="n">$3.09</td><td class="n">22</td><td class="n">$16.03</td><td class="n">19.3% &#10003;</td></tr>
+        <tr><td class="name">TIW Qualified Broad</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">14.3% &#10003;</td></tr>
+        <tr><td class="name">DHW Qualified Broad</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">10.9% &#10003;</td></tr>
+        <tr><td class="name">CW Qualified Broad</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">8.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>So my recommendation is age 25-64, with Advantage Audience staying off.</strong>
+  DHW Lead's 55-64 cell is the single best performing cell in the whole account at
+  $16.03 per qualified lead, and I do not want to keep excluding it.</p>
+</section>
+
+<!-- ============ 2. CPL ============ -->
+<section>
+  <div class="shead"><h2>The cost-per-lead rise is a landing page problem</h2><span class="chip c-warn">Open</span></div>
+  <p class="lede">
+    Cost per lead on CW Qualified Broad went from $3.98 in mid-May to $5.43 in August, up
+    36%. The two charts below are how I ruled out the auction and landed on the page. Read
+    them together: on the left is what we paid for attention, on the right is what we
+    managed to do with it once we had it.
+  </p>
+
+  <div class="slopes">
+    <div class="slope">
+      <h4>Cost per thousand impressions</h4>
+      <p class="sub">May to August &middot; lower is better</p>
+      <svg viewBox="0 0 300 200" role="img" aria-label="CPM slope chart: CW Qualified Broad falls from $21.77 to $16.59 while CW Lead, IW Lead and DHW Lead all rise.">
+        <line class="gridline" x1="60" y1="170" x2="240" y2="170"></line>
+        <line class="gridline" x1="60" y1="30" x2="60" y2="170"></line>
+        <line class="gridline" x1="240" y1="30" x2="240" y2="170"></line>
+        <text class="axis" x="60" y="188">May</text>
+        <text class="axis" x="240" y="188" text-anchor="end">Aug</text>
+
+        <path class="sl-line" d="M60,61 L240,134" stroke="var(--accent)"></path>
+        <circle class="sl-dot" cx="60" cy="61" r="3.4" fill="var(--accent)"></circle>
+        <circle class="sl-dot" cx="240" cy="134" r="3.4" fill="var(--accent)"></circle>
+        <text class="sl-lab" x="52" y="58" text-anchor="end">21.77</text>
+        <text class="sl-key" x="248" y="137" fill="var(--accent)">16.59 CW Qual Broad</text>
+
+        <path class="sl-line" d="M60,130 L240,55" stroke="var(--ink-3)" opacity=".55"></path>
+        <circle cx="60" cy="130" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <circle cx="240" cy="55" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <text class="sl-lab" x="52" y="127" text-anchor="end">16.85</text>
+        <text class="sl-lab" x="248" y="58">22.23 CW Lead</text>
+
+        <path class="sl-line" d="M60,114 L240,43" stroke="var(--ink-3)" opacity=".55"></path>
+        <circle cx="60" cy="114" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <circle cx="240" cy="43" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <text class="sl-lab" x="52" y="111" text-anchor="end">18.03</text>
+        <text class="sl-lab" x="248" y="46">23.09 IW Lead</text>
+
+        <path class="sl-line" d="M60,157 L240,61" stroke="var(--ink-3)" opacity=".55"></path>
+        <circle cx="60" cy="157" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <circle cx="240" cy="61" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <text class="sl-lab" x="52" y="160" text-anchor="end">14.92</text>
+        <text class="sl-lab" x="248" y="72">21.81 DHW Lead</text>
+      </svg>
+      <p style="font-size:14px;margin-top:18px">
+        CW Qualified Broad is the <strong>only</strong> campaign whose media got cheaper,
+        down 24%, while every other campaign paid 28 to 46% more. That is what rules out a
+        tougher auction as the cause.
+      </p>
+    </div>
+
+    <div class="slope">
+      <h4>Signup page conversion</h4>
+      <p class="sub">Leads per landing page view &middot; higher is better</p>
+      <svg viewBox="0 0 300 200" role="img" aria-label="Page conversion slope chart: CW Qualified Broad falls from 41.6 percent to 24.4 percent, a much steeper fall than any other campaign.">
+        <line class="gridline" x1="60" y1="170" x2="240" y2="170"></line>
+        <line class="gridline" x1="60" y1="30" x2="60" y2="170"></line>
+        <line class="gridline" x1="240" y1="30" x2="240" y2="170"></line>
+        <text class="axis" x="60" y="188">May</text>
+        <text class="axis" x="240" y="188" text-anchor="end">Aug</text>
+
+        <path class="sl-line" d="M60,75 L240,168" stroke="var(--crit)" stroke-width="2.6"></path>
+        <circle cx="60" cy="75" r="3.4" fill="var(--crit)"></circle>
+        <circle cx="240" cy="168" r="3.4" fill="var(--crit)"></circle>
+        <text class="sl-lab" x="52" y="72" text-anchor="end">41.6%</text>
+        <text class="sl-key" x="248" y="171" fill="var(--crit)">24.4% CW Qual Broad</text>
+
+        <path class="sl-line" d="M60,35 L240,55" stroke="var(--ink-3)" opacity=".55"></path>
+        <circle cx="60" cy="35" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <circle cx="240" cy="55" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <text class="sl-lab" x="52" y="32" text-anchor="end">49.0%</text>
+        <text class="sl-lab" x="248" y="58">45.3% CW Lead</text>
+
+        <path class="sl-line" d="M60,73 L240,48" stroke="var(--good)"></path>
+        <circle cx="60" cy="73" r="2.6" fill="var(--good)"></circle>
+        <circle cx="240" cy="48" r="2.6" fill="var(--good)"></circle>
+        <text class="sl-lab" x="52" y="86" text-anchor="end">42.0%</text>
+        <text class="sl-lab" x="248" y="43" fill="var(--good)">46.6% DHW Lead &#10003;</text>
+
+        <path class="sl-line" d="M60,112 L240,150" stroke="var(--ink-3)" opacity=".55"></path>
+        <circle cx="60" cy="112" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <circle cx="240" cy="150" r="2.6" fill="var(--ink-3)" opacity=".55"></circle>
+        <text class="sl-lab" x="52" y="115" text-anchor="end">34.7%</text>
+        <text class="sl-lab" x="248" y="153">27.7% IW Lead</text>
+      </svg>
+      <p style="font-size:14px;margin-top:18px">
+        CW Qualified Broad fell <strong>41%</strong>, against 20% on IW Lead, 8% on CW
+        Lead, and an 11% improvement on DHW Lead. Some softening is general, but this fall
+        is twice the next worst.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="panel-t">What this means in one line</div>
+    <p>
+      We are paying less for each visitor and converting far fewer of them, so the money
+      is leaking on the page rather than in the ad. What I need from your side is a look at
+      the Cardiac Wire signup page and its cross-signup step, to find whatever changed
+      there since May. I cannot see that from inside Meta.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 3. WEEKLY ============ -->
+<section>
+  <div class="shead"><h2>Nothing broke in May</h2><span class="chip c-acc">Premise corrected</span></div>
+  <p class="lede">
+    I went in expecting to find the week something broke on the qualified campaign. There
+    is no such week. What it has is heavy week-to-week noise on small numbers, which is
+    easy to mistake for a trend. Each bar below is the full range of weekly qualified rates
+    since launch, and the ticks are the May and August averages, which is the honest way to
+    read a series this jumpy.
+  </p>
+
+  <div class="panel">
+    <div class="panel-t">Weekly qualified rate, range and period averages</div>
+    <div class="rngwrap">
+      <div class="rng">
+        <span class="rng-n">CW Qualified Broad<small>2.6% to 14.1% weekly</small></span>
+        <div class="track">
+          <span class="span" style="left:17.3%;width:76.7%"></span>
+          <span class="mk" style="left:69.3%"><b>May 10.4</b></span>
+          <span class="mk aug" style="left:60.7%"><b>Aug 9.1</b></span>
+        </div>
+      </div>
+      <div class="rng">
+        <span class="rng-n">DHW Lead<small>0.4% to 13.5% weekly</small></span>
+        <div class="track">
+          <span class="span" style="left:2.7%;width:87.3%"></span>
+          <span class="mk" style="left:44%"><b>May 6.6</b></span>
+          <span class="mk aug" style="left:66.7%"><b>Aug 10.0</b></span>
+        </div>
+      </div>
+      <div class="rng">
+        <span class="rng-n">CW Lead<small>1.5% to 4.1% weekly</small></span>
+        <div class="track">
+          <span class="span" style="left:10%;width:17.3%"></span>
+          <span class="mk" style="left:27.3%"><b>May 4.1</b></span>
+          <span class="mk aug" style="left:20%"><b>Aug 3.0</b></span>
+        </div>
+      </div>
+      <div class="rng">
+        <span class="rng-n">IW Lead<small>1.8% to 8.1% weekly</small></span>
+        <div class="track">
+          <span class="span" style="left:12%;width:42%"></span>
+        </div>
+      </div>
+    </div>
+    <div class="rngaxis"><span>0%</span><span>5%</span><span>10%</span><span>15%</span></div>
+  </div>
+
+  <p>
+    <strong>CW Qualified Broad</strong> sits at 10.4% in May against 9.1% in August, so
+    roughly flat, and part of even that small gap is attribution lag on the most recent
+    weeks, which always undercount. There is no collapse here to explain. I should also
+    correct one number I gave you: the 11.5% I mentioned was a single good week, not a run
+    rate.
+  </p>
+  <p>
+    <strong>Digital Health Wire is the account's success story:</strong> 6.6% in May to
+    about 10% in August, a 52% improvement, with continuous delivery and no decay. It runs
+    the same architecture as Cardiac Wire, which is my strongest evidence that the setup
+    itself is sound and the problem was targeting.
+  </p>
+  <p>
+    <strong>CW Lead is the one real decay</strong>, and the retiree finding above explains
+    it: 79% of its August leads. On top of that I found two long zero-delivery gaps, Jun 5
+    to 25 and Jul 10 to Aug 6, so it keeps resetting its learning phase. Its best week was
+    31 qualified out of 750 leads, so the rate was always the weak number, never the
+    volume.
+  </p>
+</section>
+
+<!-- ============ 4. BUDGET ============ -->
+<section>
+  <div class="shead"><h2>Budget is going to the wrong creative</h2><span class="chip c-acc">Action available</span></div>
+  <p class="lede">
+    Inside CW Qualified Broad, two ads share one budget and Meta is picking the wrong
+    winner. DCT_112 wins on cheap leads. DCT_118 wins on qualified leads, which is the
+    number we actually care about, and it gets less than half the money.
+  </p>
+
+  <div class="panel">
+    <div class="panel-t">CW Qualified Broad by ad, Aug 8 to 22</div>
+    <div class="cmp">
+      <div class="cmprow">
+        <span class="cmpname">DCT_112 EndangerPatient<small>$62.07 per qualified lead</small></span>
+        <div class="cmpbars">
+          <div class="cb"><span class="k">Spend</span><span class="tw"><span class="t"></span><span class="f f-spend" style="--w:62.2%"></span></span><span class="v">62.2%</span></div>
+          <div class="cb"><span class="k">Qual rate</span><span class="tw"><span class="t"></span><span class="f f-qual" style="--w:39.2%"></span></span><span class="v">7.1%</span></div>
+        </div>
+      </div>
+      <div class="cmprow">
+        <span class="cmpname">DCT_118 CW Text Call out<small>$43.06 per qualified lead</small></span>
+        <div class="cmpbars">
+          <div class="cb"><span class="k">Spend</span><span class="tw"><span class="t"></span><span class="f f-spend" style="--w:29.4%"></span></span><span class="v">29.4%</span></div>
+          <div class="cb"><span class="k">Qual rate</span><span class="tw"><span class="t"></span><span class="f f-qual" style="--w:100%"></span></span><span class="v">18.1%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Ad</th><th class="r">Spend</th><th class="r">Leads</th><th class="r">CPL</th><th class="r">Qualified</th><th class="r">CPQL</th><th class="r">Qual rate</th></tr></thead>
+      <tbody>
+        <tr><td class="name">DCT_112 EndangerPatient</td><td class="n">$1,365.55</td><td class="n">311</td><td class="n">$4.39</td><td class="n">22</td><td class="n">$62.07</td><td class="n">7.1%</td></tr>
+        <tr class="win"><td class="name">DCT_118 CW Text Call out</td><td class="n">$645.91</td><td class="n">83</td><td class="n">$7.78</td><td class="n">15</td><td class="n">$43.06</td><td class="n">18.1% &#10003;</td></tr>
+        <tr><td class="name">DCT_152 Static Callout V3</td><td class="n">$185.38</td><td class="n">22</td><td class="n">$8.43</td><td class="n">0</td><td class="n">n/a</td><td class="n">0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    DCT_118 costs more per lead but delivers <strong>two and a half times the qualified
+    rate</strong> at 31% lower cost per qualified lead. Ads inside one ad set cannot hold
+    separate budgets, so the only way I can protect it is to split the ad set: duplicate it
+    with identical targeting, leave DCT_118 alone in the copy with its own daily budget,
+    then remove it from the original. That is a change I can make on our side this week.
+  </p>
+
+  <h3>DCT_152: already handled</h3>
+  <p>
+    You asked me to kill this one on the call. When I went looking I found it running in
+    three places, not two, and the largest was inside CW Lead where it behaved exactly like
+    the retiree pattern above: 6.52% CTR, $1.21 per lead, 0.97% qualified. Total exposure
+    came to <strong>$1,065</strong> for 7 qualified leads. I have paused all three
+    instances, the last on Aug 23, so there is nothing left outstanding here.
+  </p>
+</section>
+
+<!-- ============ 5. SIGNAL ============ -->
+<section>
+  <div class="shead"><h2>The qualified signal is working</h2><span class="chip c-good">Cleared</span></div>
+  <p class="lede">
+    I want to flag this one plainly because it looked alarming when I first opened it. The
+    three custom conversions that count a qualified subscriber are written loosely, so on
+    paper any completed registration would count. In practice they are accurate, because
+    the filtering happens before Meta ever sees the event. I checked rather than assumed.
+  </p>
+
+  <div class="panel">
+    <div class="panel-t">CW Qualified Broad, Aug 1 to 22</div>
+    <div class="cmp">
+      <div class="cmprow">
+        <span class="cmpname">Total leads<small>every signup Meta recorded</small></span>
+        <div class="cmpbars"><div class="cb"><span class="k">Count</span><span class="tw"><span class="t"></span><span class="f f-spend" style="--w:100%"></span></span><span class="v">632</span></div></div>
+      </div>
+      <div class="cmprow">
+        <span class="cmpname">Counted as qualified<small>9.0% of leads</small></span>
+        <div class="cmpbars"><div class="cb"><span class="k">Count</span><span class="tw"><span class="t"></span><span class="f f-qual" style="--w:9%"></span></span><span class="v">57</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    If the loose rule were really counting every signup as qualified, that second number
+    would read near 632. It reads 57. That is what tells me the cost-per-qualified-lead
+    figures throughout this page hold.
+  </p>
+  <p>
+    The real exposure is fragility rather than error. Nothing inside Meta enforces that the
+    upstream feed keeps sending this event only for qualified people, so if that ever
+    changes the number quietly turns to noise and every optimisation follows it. We own
+    that feed on our side, so tightening the rule is our housekeeping and needs nothing
+    from you. I am treating it as a safeguard, not a repair.
+  </p>
+</section>
+
+<!-- ============ ACTIONS ============ -->
+<section>
+  <div class="shead"><h2>What happens next</h2></div>
+  <p class="lede">Ordered by impact. I have already done the first two.</p>
+  <div class="actions">
+    <div class="act done"><span class="k">01</span><div class="b"><h4>Close the 65-plus leak</h4><p>I switched Advantage Audience off and capped the age ceiling on every live ad set across all three Lead campaigns. Verified in the delivery data: zero 65-plus leads since Aug 20.</p></div><span class="chip c-good">Done</span></div>
+    <div class="act done"><span class="k">02</span><div class="b"><h4>Turn off DCT_152</h4><p>I paused all three instances, including the CW Lead one you did not know about, which was carrying 83% of its spend.</p></div><span class="chip c-good">Done</span></div>
+    <div class="act"><span class="k">03</span><div class="b"><h4>Widen age to 25-64</h4><p>My own 55 cap overshoots. 55-64 is the best-performing cohort in the account at $16.03 per qualified lead on DHW Lead, so I want it back in. Advantage Audience stays off.</p></div><span class="chip c-acc">This week</span></div>
+    <div class="act"><span class="k">04</span><div class="b"><h4>Split the CW Qualified Broad ad set</h4><p>I will give DCT_118 its own protected daily budget. On current numbers that is roughly a 31% improvement in cost per qualified lead on the spend I move.</p></div><span class="chip c-acc">This week</span></div>
+    <div class="act"><span class="k">05</span><div class="b"><h4>Audit the Cardiac Wire signup page</h4><p>Page conversion fell 41% since May while my three control campaigns held. This is the largest remaining cost I cannot explain, and it sits on the page rather than in the account, so I need your team to check what changed.</p></div><span class="chip c-warn">Need your team</span></div>
+    <div class="act"><span class="k">06</span><div class="b"><h4>Reconcile against Mailchimp</h4><p>You asked for cost per lead and cost per qualified lead built from Meta spend against Mailchimp counts. I need the Mailchimp export to do it, and it also settles what the 57 qualified events above really represent.</p></div><span class="chip c-warn">Need your team</span></div>
+    <div class="act"><span class="k">07</span><div class="b"><h4>Fix or retire CW Lead</h4><p>It is down to about 1% qualified, 79% of its August leads were retirees, and two long delivery gaps keep resetting its learning phase. I would like your call on whether to rebuild it or move the budget.</p></div><span class="chip c-acc">Decision needed</span></div>
+    <div class="act later"><span class="k">08</span><div class="b"><h4>Housekeeping</h4><p>I want to prune the 12-audience exclusion stack, since several snapshots are frozen at July 9 and are a plausible contributor to rising cost per lead. Also tightening the conversion rule as a safeguard and archiving seven stale conversions. All on our side.</p></div><span class="chip c-acc">Backlog</span></div>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <strong>On the numbers.</strong> Every lead and qualified count here is Meta-side. Meta
+    typically overcounts leads by 10 to 20% on this account, so the Mailchimp-based version
+    you asked for will read differently in absolute terms while pointing in the same
+    direction. I have written every period change as a relative percentage, not a point
+    difference. Recent weeks undercount conversions because of the 7-day attribution
+    window, so I have leaned on period averages rather than the latest week.
+  </p>
+  <p style="margin-top:14px">
+    Lays Paiva, The Feed Media &middot; built from the Meta Ads API &middot; window
+    May 1 to Aug 22, 2026. Happy to walk through any of this on the next call.
+  </p>
+</footer>
+
+</div>
+
+</body>
+</html>

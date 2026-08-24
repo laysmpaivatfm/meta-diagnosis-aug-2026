@@ -280,10 +280,10 @@ a{color:var(--accent)}
   </div>
   <h1>Retirees were eating the lead volume. That leak is closed.</h1>
   <p class="standfirst">
-    Your read on the call was right, so I went and proved it. The 65-plus bucket was
-    producing 28% of August leads on 10% of spend, and almost none of them qualified.
-    Separately, cost per lead has risen on the qualified campaign, and I traced that to
-    the signup page rather than the audience or the auction.
+    Two separate things going on. The 65-plus bucket was pulling 28% of August leads on
+    10% of spend and almost none of them qualified; that is shut off now. And cost per
+    lead on the qualified campaign is up 36%, which is the signup page, not the audience
+    and not the auction.
   </p>
   <div class="metarow">
     <span>Source: Meta Ads API, Insight Links account</span>
@@ -301,7 +301,7 @@ a{color:var(--accent)}
   <div class="vcard">
     <span class="chip c-good">Fixed</span>
     <span class="stat-v">0</span>
-    <span class="stat-l">65-plus leads since Aug 20. I switched Advantage Audience off and capped every live ad set.</span>
+    <span class="stat-l">65-plus leads since Aug 20. Advantage Audience off, every live ad set capped.</span>
   </div>
   <div class="vcard">
     <span class="chip c-warn">Open</span>
@@ -311,7 +311,7 @@ a{color:var(--accent)}
   <div class="vcard">
     <span class="chip c-acc">Opportunity</span>
     <span class="stat-v">-31%</span>
-    <span class="stat-l">cost per qualified lead I can get by protecting DCT_118's budget from DCT_112.</span>
+    <span class="stat-l">lower cost per qualified lead once DCT_118 stops sharing a budget with DCT_112.</span>
   </div>
 </div>
 
@@ -319,10 +319,8 @@ a{color:var(--accent)}
 <section>
   <div class="shead"><h2>Where the junk leads came from</h2><span class="chip c-crit">Confirmed</span></div>
   <p class="lede">
-    This is the chart I would start with, because it explains most of the account. The
-    teal bar is each age group's share of leads. The grey bar is its share of spend.
-    Wherever the two roughly match, the account is behaving. In the 65-plus row they come
-    apart badly.
+    Teal is each age group's share of leads. Grey is its share of spend. Where they match,
+    the account is behaving. The 65-plus row does not match.
   </p>
 
   <div class="panel">
@@ -373,11 +371,11 @@ a{color:var(--accent)}
   </div>
 
   <p>
-    Retirees click at <strong>5.87% CTR</strong> against roughly 2% everywhere else, and
-    they convert on the signup page at <strong>46%</strong> against 22 to 36% for your real
-    buyers. At <strong>$1.55</strong> each they are the cheapest leads on the platform, so
-    once the campaign was optimising for cheap leads, Meta went and bought retirees. They
-    then almost never qualify.
+    Retirees click at <strong>5.87% CTR</strong>. Everyone else clicks at about 2%. They
+    also convert on the signup page at <strong>46%</strong>, against 22 to 36% for your
+    actual buyers. That makes them the cheapest leads on the platform at
+    <strong>$1.55</strong> each. Tell Meta to buy cheap leads and it buys retirees. Then
+    they do not qualify.
   </p>
 
   <h3>Which campaigns were spending on them</h3>
@@ -393,30 +391,27 @@ a{color:var(--accent)}
     </table>
   </div>
   <p>
-    CW Lead is where it concentrated: <strong>658 of its 830 August leads, 79%, were
-    65-plus</strong>. That one fact explains its suspiciously flat $1.25 cost per lead and
-    its slide from 4.1% to about 1% qualified. Its non-retiree buckets produced no
-    qualified leads at all in August, which is what convinced me this was the whole story
-    rather than part of it.
+    CW Lead took the worst of it: <strong>658 of its 830 August leads were 65-plus,
+    79%</strong>. That explains the flat $1.25 cost per lead and the slide from 4.1% to
+    about 1% qualified. Its non-retiree age buckets produced zero qualified leads in
+    August. Retirees were not part of the problem there, they were all of it.
   </p>
 
   <div class="callout">
     <div class="panel-t">The mechanism, and the fix</div>
     <p>
-      Every ad set with an age ceiling of 65 also had <span class="mono-i">Advantage
-      Audience</span> switched on, which lets Meta deliver outside the stated age range
-      regardless of the ceiling. That is how 65-plus walked in past a 65 cap. I have paused
-      those ad sets across CW Lead, IW Lead and DHW Lead, and every live ad set is now
-      25-55 with Advantage Audience off. The delivery data backs it up: no 65-plus delivery
-      at all since Aug 20.
+      Every ad set with a 65 ceiling also had <span class="mono-i">Advantage
+      Audience</span> switched on. That setting lets Meta deliver outside your stated age
+      range, ceiling or no ceiling. That is how 65-plus got in. Those ad sets are paused
+      across CW Lead, IW Lead and DHW Lead, every live ad set is 25-55 with Advantage
+      Audience off, and delivery confirms it: zero 65-plus since Aug 20.
     </p>
   </div>
 
   <h3>One correction to the fix: 55 is too tight</h3>
   <p>
-    Capping at 55 was the right emergency move, but I think it overshoots. 55-64 is the
-    strongest cohort in the account wherever it runs, so the real line sits between 55-64
-    and 65-plus, not at 55.
+    55 was the emergency setting and it cuts too deep. 55-64 is the strongest cohort in
+    the account everywhere it runs. The bad line is between 55-64 and 65-plus, not at 55.
   </p>
   <div class="tscroll">
     <table>
@@ -429,9 +424,9 @@ a{color:var(--accent)}
       </tbody>
     </table>
   </div>
-  <p><strong>So my recommendation is age 25-64, with Advantage Audience staying off.</strong>
-  DHW Lead's 55-64 cell is the single best performing cell in the whole account at
-  $16.03 per qualified lead, and I do not want to keep excluding it.</p>
+  <p><strong>Take it to 25-64, Advantage Audience stays off.</strong>
+  DHW Lead's 55-64 cell is the best cell in the account at $16.03 per qualified lead.
+  No reason to keep excluding it.</p>
 </section>
 
 <!-- ============ 2. CPL ============ -->
@@ -439,9 +434,8 @@ a{color:var(--accent)}
   <div class="shead"><h2>The cost-per-lead rise is a landing page problem</h2><span class="chip c-warn">Open</span></div>
   <p class="lede">
     Cost per lead on CW Qualified Broad went from $3.98 in mid-May to $5.43 in August, up
-    36%. The two charts below are how I ruled out the auction and landed on the page. Read
-    them together: on the left is what we paid for attention, on the right is what we
-    managed to do with it once we had it.
+    36%. Left chart is what we pay for attention. Right chart is what happens to it.
+    Together they rule out the auction.
   </p>
 
   <div class="slopes">
@@ -480,9 +474,8 @@ a{color:var(--accent)}
         <text class="sl-lab" x="248" y="72">21.81 DHW Lead</text>
       </svg>
       <p style="font-size:14px;margin-top:18px">
-        CW Qualified Broad is the <strong>only</strong> campaign whose media got cheaper,
-        down 24%, while every other campaign paid 28 to 46% more. That is what rules out a
-        tougher auction as the cause.
+        The <strong>only</strong> campaign whose media got cheaper, down 24%. Every other
+        campaign paid 28 to 46% more. The auction got easier here, not harder.
       </p>
     </div>
 
@@ -521,9 +514,8 @@ a{color:var(--accent)}
         <text class="sl-lab" x="248" y="153">27.7% IW Lead</text>
       </svg>
       <p style="font-size:14px;margin-top:18px">
-        CW Qualified Broad fell <strong>41%</strong>, against 20% on IW Lead, 8% on CW
-        Lead, and an 11% improvement on DHW Lead. Some softening is general, but this fall
-        is twice the next worst.
+        Same campaign fell <strong>41%</strong>. IW Lead fell 20%, CW Lead 8%, and DHW Lead
+        improved 11%. Some softening is account-wide. This is twice the next worst.
       </p>
     </div>
   </div>
@@ -531,10 +523,10 @@ a{color:var(--accent)}
   <div class="callout">
     <div class="panel-t">What this means in one line</div>
     <p>
-      We are paying less for each visitor and converting far fewer of them, so the money
-      is leaking on the page rather than in the ad. What I need from your side is a look at
-      the Cardiac Wire signup page and its cross-signup step, to find whatever changed
-      there since May. I cannot see that from inside Meta.
+      Cheaper visitors, far fewer of them converting. The money is going out on the page,
+      not in the ad. This is the one piece I cannot fix from inside Meta: someone needs to
+      look at what changed on the Cardiac Wire signup page and the cross-signup step
+      since May.
     </p>
   </div>
 </section>
@@ -543,11 +535,10 @@ a{color:var(--accent)}
 <section>
   <div class="shead"><h2>Nothing broke in May</h2><span class="chip c-acc">Premise corrected</span></div>
   <p class="lede">
-    I went in expecting to find the week something broke on the qualified campaign. There
-    is no such week. What it has is heavy week-to-week noise on small numbers, which is
-    easy to mistake for a trend. Each bar below is the full range of weekly qualified rates
-    since launch, and the ticks are the May and August averages, which is the honest way to
-    read a series this jumpy.
+    There is no week where the qualified campaign broke. It is noisy week to week on small
+    numbers, and noise reads like a trend if you look at single weeks. Each bar is the full
+    range of weekly qualified rates since launch. The ticks are the May and August
+    averages.
   </p>
 
   <div class="panel">
@@ -588,24 +579,21 @@ a{color:var(--accent)}
   </div>
 
   <p>
-    <strong>CW Qualified Broad</strong> sits at 10.4% in May against 9.1% in August, so
-    roughly flat, and part of even that small gap is attribution lag on the most recent
-    weeks, which always undercount. There is no collapse here to explain. I should also
-    correct one number I gave you: the 11.5% I mentioned was a single good week, not a run
-    rate.
+    <strong>CW Qualified Broad:</strong> 10.4% in May, 9.1% in August. Flat, and some of
+    that gap is attribution lag on recent weeks, which always undercount. Nothing
+    collapsed. One correction from the call: the 11.5% I quoted was one good week, not the
+    run rate.
   </p>
   <p>
-    <strong>Digital Health Wire is the account's success story:</strong> 6.6% in May to
-    about 10% in August, a 52% improvement, with continuous delivery and no decay. It runs
-    the same architecture as Cardiac Wire, which is my strongest evidence that the setup
-    itself is sound and the problem was targeting.
+    <strong>Digital Health Wire went the other way:</strong> 6.6% in May to about 10% in
+    August, up 52%, continuous delivery, no decay. Same build as Cardiac Wire. That is the
+    useful part. The setup works, so what went wrong on Cardiac Wire was targeting.
   </p>
   <p>
-    <strong>CW Lead is the one real decay</strong>, and the retiree finding above explains
-    it: 79% of its August leads. On top of that I found two long zero-delivery gaps, Jun 5
-    to 25 and Jul 10 to Aug 6, so it keeps resetting its learning phase. Its best week was
-    31 qualified out of 750 leads, so the rate was always the weak number, never the
-    volume.
+    <strong>CW Lead is the one real decay</strong>, and the retirees explain most of it. It
+    also went dark twice, Jun 5 to 25 and Jul 10 to Aug 6, so it keeps restarting its
+    learning phase. Best week it ever had was 31 qualified out of 750 leads. Volume was
+    never the problem there. The rate was.
   </p>
 </section>
 
@@ -613,9 +601,9 @@ a{color:var(--accent)}
 <section>
   <div class="shead"><h2>Budget is going to the wrong creative</h2><span class="chip c-acc">Action available</span></div>
   <p class="lede">
-    Inside CW Qualified Broad, two ads share one budget and Meta is picking the wrong
-    winner. DCT_112 wins on cheap leads. DCT_118 wins on qualified leads, which is the
-    number we actually care about, and it gets less than half the money.
+    Two ads share one budget inside CW Qualified Broad, and Meta is backing the wrong one.
+    DCT_112 wins on cheap leads. DCT_118 wins on qualified leads, and it is getting less
+    than half the money.
   </p>
 
   <div class="panel">
@@ -650,20 +638,19 @@ a{color:var(--accent)}
   </div>
 
   <p>
-    DCT_118 costs more per lead but delivers <strong>two and a half times the qualified
-    rate</strong> at 31% lower cost per qualified lead. Ads inside one ad set cannot hold
-    separate budgets, so the only way I can protect it is to split the ad set: duplicate it
-    with identical targeting, leave DCT_118 alone in the copy with its own daily budget,
-    then remove it from the original. That is a change I can make on our side this week.
+    DCT_118 costs more per lead and delivers <strong>two and a half times the qualified
+    rate</strong>, so 31% cheaper per qualified lead. Meta will not let two ads in one ad
+    set hold separate budgets, so the fix is to split it: duplicate the ad set with the
+    same targeting, put DCT_118 in the copy on its own daily budget, pull it from the
+    original. I will do that this week.
   </p>
 
   <h3>DCT_152: already handled</h3>
   <p>
-    You asked me to kill this one on the call. When I went looking I found it running in
-    three places, not two, and the largest was inside CW Lead where it behaved exactly like
-    the retiree pattern above: 6.52% CTR, $1.21 per lead, 0.97% qualified. Total exposure
-    came to <strong>$1,065</strong> for 7 qualified leads. I have paused all three
-    instances, the last on Aug 23, so there is nothing left outstanding here.
+    It was running in three places, not two. The biggest one sat inside CW Lead and
+    behaved like a textbook retiree ad: 6.52% CTR, $1.21 per lead, 0.97% qualified. Total
+    damage <strong>$1,065</strong> for 7 qualified leads. All three are paused, the last
+    on Aug 23.
   </p>
 </section>
 
@@ -671,10 +658,10 @@ a{color:var(--accent)}
 <section>
   <div class="shead"><h2>The qualified signal is working</h2><span class="chip c-good">Cleared</span></div>
   <p class="lede">
-    I want to flag this one plainly because it looked alarming when I first opened it. The
-    three custom conversions that count a qualified subscriber are written loosely, so on
-    paper any completed registration would count. In practice they are accurate, because
-    the filtering happens before Meta ever sees the event. I checked rather than assumed.
+    Flagging this because it looks worse than it is. The three custom conversions that
+    count a qualified subscriber are written loosely, so on paper any completed
+    registration would count. In practice the numbers are right, because the filtering
+    happens upstream, before Meta ever sees the event.
   </p>
 
   <div class="panel">
@@ -692,47 +679,44 @@ a{color:var(--accent)}
   </div>
 
   <p>
-    If the loose rule were really counting every signup as qualified, that second number
-    would read near 632. It reads 57. That is what tells me the cost-per-qualified-lead
-    figures throughout this page hold.
+    If the loose rule were counting every signup, that second number would be near 632. It
+    is 57. So the cost-per-qualified-lead figures on this page hold.
   </p>
   <p>
-    The real exposure is fragility rather than error. Nothing inside Meta enforces that the
-    upstream feed keeps sending this event only for qualified people, so if that ever
-    changes the number quietly turns to noise and every optimisation follows it. We own
-    that feed on our side, so tightening the rule is our housekeeping and needs nothing
-    from you. I am treating it as a safeguard, not a repair.
+    The risk is fragility. Nothing inside Meta enforces that the upstream feed only ever
+    fires this event for qualified people. If that changes, the number quietly turns to
+    noise and every optimisation follows it down. We own that feed, so I will tighten the
+    rule on our side. Housekeeping, not a repair.
   </p>
 </section>
 
 <!-- ============ ACTIONS ============ -->
 <section>
   <div class="shead"><h2>What happens next</h2></div>
-  <p class="lede">Ordered by impact. I have already done the first two.</p>
+  <p class="lede">Ordered by impact. First two are done.</p>
   <div class="actions">
-    <div class="act done"><span class="k">01</span><div class="b"><h4>Close the 65-plus leak</h4><p>I switched Advantage Audience off and capped the age ceiling on every live ad set across all three Lead campaigns. Verified in the delivery data: zero 65-plus leads since Aug 20.</p></div><span class="chip c-good">Done</span></div>
-    <div class="act done"><span class="k">02</span><div class="b"><h4>Turn off DCT_152</h4><p>I paused all three instances, including the CW Lead one you did not know about, which was carrying 83% of its spend.</p></div><span class="chip c-good">Done</span></div>
-    <div class="act"><span class="k">03</span><div class="b"><h4>Widen age to 25-64</h4><p>My own 55 cap overshoots. 55-64 is the best-performing cohort in the account at $16.03 per qualified lead on DHW Lead, so I want it back in. Advantage Audience stays off.</p></div><span class="chip c-acc">This week</span></div>
-    <div class="act"><span class="k">04</span><div class="b"><h4>Split the CW Qualified Broad ad set</h4><p>I will give DCT_118 its own protected daily budget. On current numbers that is roughly a 31% improvement in cost per qualified lead on the spend I move.</p></div><span class="chip c-acc">This week</span></div>
-    <div class="act"><span class="k">05</span><div class="b"><h4>Audit the Cardiac Wire signup page</h4><p>Page conversion fell 41% since May while my three control campaigns held. This is the largest remaining cost I cannot explain, and it sits on the page rather than in the account, so I need your team to check what changed.</p></div><span class="chip c-warn">Need your team</span></div>
-    <div class="act"><span class="k">06</span><div class="b"><h4>Reconcile against Mailchimp</h4><p>You asked for cost per lead and cost per qualified lead built from Meta spend against Mailchimp counts. I need the Mailchimp export to do it, and it also settles what the 57 qualified events above really represent.</p></div><span class="chip c-warn">Need your team</span></div>
-    <div class="act"><span class="k">07</span><div class="b"><h4>Fix or retire CW Lead</h4><p>It is down to about 1% qualified, 79% of its August leads were retirees, and two long delivery gaps keep resetting its learning phase. I would like your call on whether to rebuild it or move the budget.</p></div><span class="chip c-acc">Decision needed</span></div>
-    <div class="act later"><span class="k">08</span><div class="b"><h4>Housekeeping</h4><p>I want to prune the 12-audience exclusion stack, since several snapshots are frozen at July 9 and are a plausible contributor to rising cost per lead. Also tightening the conversion rule as a safeguard and archiving seven stale conversions. All on our side.</p></div><span class="chip c-acc">Backlog</span></div>
+    <div class="act done"><span class="k">01</span><div class="b"><h4>Close the 65-plus leak</h4><p>Advantage Audience off, age ceiling capped on every live ad set across all three Lead campaigns. Delivery data confirms zero 65-plus leads since Aug 20.</p></div><span class="chip c-good">Done</span></div>
+    <div class="act done"><span class="k">02</span><div class="b"><h4>Turn off DCT_152</h4><p>All three instances paused, including a third one inside CW Lead that was carrying 83% of its spend.</p></div><span class="chip c-good">Done</span></div>
+    <div class="act"><span class="k">03</span><div class="b"><h4>Widen age to 25-64</h4><p>My 55 cap cuts too deep. 55-64 is the best cohort in the account at $16.03 per qualified lead on DHW Lead. Bring it back, Advantage Audience stays off.</p></div><span class="chip c-acc">This week</span></div>
+    <div class="act"><span class="k">04</span><div class="b"><h4>Split the CW Qualified Broad ad set</h4><p>Duplicate the ad set so DCT_118 holds its own daily budget. Worth about 31% on cost per qualified lead for the spend I move.</p></div><span class="chip c-acc">This week</span></div>
+    <div class="act"><span class="k">05</span><div class="b"><h4>Audit the Cardiac Wire signup page</h4><p>Page conversion fell 41% since May while three control campaigns held. Biggest remaining leak, and it is not in the ad account. Someone on your side needs to check what changed on that page.</p></div><span class="chip c-warn">Need your team</span></div>
+    <div class="act"><span class="k">06</span><div class="b"><h4>Reconcile against Mailchimp</h4><p>Cost per lead and cost per qualified lead built from Meta spend against Mailchimp counts, as asked. Send me the export and I will build it. It also settles what those 57 qualified events really are.</p></div><span class="chip c-warn">Need your team</span></div>
+    <div class="act"><span class="k">07</span><div class="b"><h4>Fix or retire CW Lead</h4><p>About 1% qualified, 79% retirees in August, two long delivery gaps resetting its learning phase. Rebuild it or move the budget, your call.</p></div><span class="chip c-acc">Decision needed</span></div>
+    <div class="act later"><span class="k">08</span><div class="b"><h4>Housekeeping</h4><p>Prune the 12-audience exclusion stack, several snapshots are frozen at July 9 and are likely adding to cost per lead. Tighten the conversion rule, archive seven stale conversions. All on our side.</p></div><span class="chip c-acc">Backlog</span></div>
   </div>
 </section>
 
 <footer>
   <p>
     <strong>On the numbers.</strong> Every lead and qualified count here is Meta-side. Meta
-    typically overcounts leads by 10 to 20% on this account, so the Mailchimp-based version
-    you asked for will read differently in absolute terms while pointing in the same
-    direction. I have written every period change as a relative percentage, not a point
-    difference. Recent weeks undercount conversions because of the 7-day attribution
-    window, so I have leaned on period averages rather than the latest week.
+    runs 10 to 20% high on leads for this account, so the Mailchimp version will read lower
+    in absolute terms and point the same way. Period changes are relative percentages, not
+    point differences. The 7-day attribution window means recent weeks undercount, so I
+    have used period averages instead of the latest week.
   </p>
   <p style="margin-top:14px">
-    Lays Paiva, The Feed Media &middot; built from the Meta Ads API &middot; window
-    May 1 to Aug 22, 2026. Happy to walk through any of this on the next call.
+    Lays Paiva, The Feed Media &middot; pulled from the Meta Ads API &middot; May 1 to
+    Aug 22, 2026.
   </p>
 </footer>
 

@@ -11,6 +11,7 @@
 
 </head>
 <body>
+
 <style>
 :root{
   --ground:#F4F6F8;
@@ -279,7 +280,7 @@ a{color:var(--accent)}
   <div class="vcard">
     <span class="chip c-good">Fixed</span>
     <span class="stat-v">0</span>
-    <span class="stat-l">65-plus leads since Aug 20. Advantage Audience off, every live ad set capped.</span>
+    <span class="stat-l">65-plus leads since Aug 20. Confirmed in delivery, not just in settings.</span>
   </div>
   <div class="vcard">
     <span class="chip c-warn">Open</span>
@@ -378,11 +379,13 @@ a{color:var(--accent)}
   <div class="callout">
     <div class="panel-t">The mechanism, and the fix</div>
     <p>
-      Every ad set with a 65 ceiling also had <span class="mono-i">Advantage
-      Audience</span> switched on. That setting lets Meta deliver outside your stated age
-      range, ceiling or no ceiling. That is how 65-plus got in. Those ad sets are paused
-      across CW Lead, IW Lead and DHW Lead, every live ad set is 25-55 with Advantage
-      Audience off, and delivery confirms it: zero 65-plus since Aug 20.
+      <span class="mono-i">Advantage Audience</span> treats your stated age range as a
+      suggestion rather than a rule, so an ad set can be set to 25-59 and still deliver to
+      65-plus. That is the mechanism. Today 18 of the 19 active ad sets across the live
+      campaigns run Advantage off at 25-55. The one exception is
+      <span class="mono-i">DCT_103_Luiz_Confession [Imaging Wire]</span> in IW Lead, still
+      Advantage on at 25-65. Delivery confirms the leak is shut regardless: zero 65-plus
+      since Aug 20.
     </p>
   </div>
 
@@ -403,9 +406,11 @@ a{color:var(--accent)}
       </tbody>
     </table>
   </div>
-  <p><strong>Back to 25-59, Advantage Audience stays off.</strong>
-  DHW Lead's 55-64 cell is the best in the account at $16.03 per qualified lead, so the
-  emergency 55 cap is leaving performance on the table.</p>
+  <p><strong>Back to 25-59 everywhere.</strong>
+  DHW Lead&rsquo;s 55-64 cell is the best in the account at $16.03 per qualified lead, so the
+  emergency 55 cap is leaving performance on the table. Advantage Audience is a separate
+  decision and is handled in the next section, because it does not have the same answer on
+  every campaign.</p>
   <p class="caveat">
     Worth being straight about the limit of this table. Meta reports age in fixed bands and
     55-64 is one of them, so I cannot show you how much of that $16.03 comes from 55-59
@@ -731,14 +736,108 @@ a{color:var(--accent)}
   </p>
 </section>
 
+<!-- ============ ADVANTAGE ============ -->
+<section>
+  <div class="shead"><h2>Should Advantage Audience go back on?</h2><span class="chip c-warn">Revised</span></div>
+  <p class="lede">
+    Short answer: on the Lead campaigns yes, on the Qualified Broad campaigns no. The
+    reasoning below corrects an earlier version of this page.
+  </p>
+
+  <h3>What actually happened to the setting</h3>
+  <p>
+    The full account activity log from April 1 to August 24 was read with no gaps left. Three
+    things happened, and only two of them were deliberate.
+  </p>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Date</th><th>Change</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Apr 1 to Jul 8</td><td>Advantage Audience on</td><td>everywhere</td></tr>
+        <tr><td class="name">Jul 9</td><td>Advantage on to <strong>off</strong>, age left at 25-59</td><td>Broad_CW_Qualified subscriber, Broad_IW_Qualified subscriber</td></tr>
+        <tr><td class="name">Jul 10 to Aug 17</td><td>no targeting changes at all</td><td>none</td></tr>
+        <tr><td class="name">Aug 18</td><td>Advantage on to off <em>and</em> age 25-59 to 25-55</td><td>17 ad sets, bulk edit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>May was not a clean month</h3>
+  <p>
+    The instinct to go back to May&rsquo;s setup is reasonable, but May ran Advantage on at 25-59,
+    and that is precisely how 65-plus took four dollars in every ten and more than half of
+    every lead booked.
+  </p>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Meta-side</th><th class="r">May spend</th><th class="r">May leads</th><th class="r">CPL</th><th class="r">Aug spend</th><th class="r">Aug leads</th><th class="r">CPL</th></tr></thead>
+      <tbody>
+        <tr><td class="name">65-plus</td><td class="n">$6,054.82 (39.9%)</td><td class="n">3,475 (55.6%)</td><td class="n">$1.74</td><td class="n">$1,340.00 (9.5%)</td><td class="n">862 (27.0%)</td><td class="n">$1.55</td></tr>
+        <tr class="win"><td class="name">Everyone else</td><td class="n">$9,133.27</td><td class="n">2,780</td><td class="n">$3.29</td><td class="n">$12,712.13</td><td class="n">2,328</td><td class="n">$5.46</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    This reframes the decline. The headline reads May $2.43 to August $4.41, up 81%. Strip out
+    the 65-plus padding on both sides and the real move is $3.29 to $5.46, up 66%. Still bad,
+    but a third of the apparent damage was never real performance, it was cheap volume that
+    does not convert.
+  </p>
+
+  <div class="callout">
+    <div class="panel-t">The number that settles it</div>
+    <p>
+      August qualified rate by age band: 25-34 at 11.7%, 35-44 at 10.2%, 45-54 at 10.6%,
+      55-64 at 13.6%, and <strong>65-plus at 2.0%</strong>. Five to seven times worse than
+      every other band. Advantage Audience is the setting that buys that traffic, so turning
+      it off on the Qualified Broad campaigns on July 9 was directionally right, not the
+      mistake it looked like.
+    </p>
+  </div>
+
+  <h3>So: on for Lead, off for Qualified</h3>
+  <p>
+    The Lead campaigns exist to buy volume at a low cost per lead, which is what the client is
+    complaining about. Advantage on at 25-59 does that, and the 65-plus it drags in is the
+    price of the cheap CPL. The Qualified Broad campaigns exist to buy quality, and Advantage
+    is the mechanism that dilutes it. One switch, two answers.
+  </p>
+
+  <div class="callout">
+    <div class="panel-t">Warn the client before they see it</div>
+    <p>
+      Closing the 65-plus leak makes cost per lead look <em>worse</em>, not better. The four
+      days after the fix, Aug 21 to 24, ran at $6.40 per lead against $4.41 for August as a
+      whole. That is not a regression. It is the cheap junk leaving the average. If the CPL
+      conversation is already live, this needs saying first rather than being explained after
+      the fact.
+    </p>
+  </div>
+
+  <p class="caveat">
+    Being straight about what this does not prove. Three things hit the Qualified Broad
+    campaigns in the same window: Advantage off on July 9, the creative refresh, and the budget
+    shift that took them to 68% of spend. Advantage cannot be isolated from the other two. The
+    creative gap is an order of magnitude larger than anything the setting could explain, 43%
+    qualified on the DCT_101 to 123 generation against 1.3% on the newer work, so creative
+    remains the primary cause and Advantage is a secondary correction.
+  </p>
+  <p class="caveat">
+    Age-band qualified rates here are Meta&rsquo;s own pixel counts, which run 10 to 20% high on
+    this account. They are used because Mailchimp holds no age data at all. The relative gap
+    between bands is the signal; the absolute percentages are directional. May&rsquo;s pixel sat
+    near 2% across every band including the strong ones, so May cannot answer the age question
+    and only August is used for it.
+  </p>
+</section>
+
 <!-- ============ ACTIONS ============ -->
 <section>
   <div class="shead"><h2>What happens next</h2></div>
   <p class="lede">Ordered by impact. First two are done.</p>
   <div class="actions">
-    <div class="act done"><span class="k">01</span><div class="b"><h4>Close the 65-plus leak</h4><p>Advantage Audience off, age ceiling capped on every live ad set across all three Lead campaigns. Delivery data confirms zero 65-plus leads since Aug 20.</p></div><span class="chip c-good">Done</span></div>
+    <div class="act done"><span class="k">01</span><div class="b"><h4>Close the 65-plus leak</h4><p>Advantage Audience off and the age ceiling capped across the live campaigns. Delivery confirms zero 65-plus leads since Aug 20. One ad set was missed, DCT_103_Luiz_Confession [Imaging Wire], still Advantage on at 25-65.</p></div><span class="chip c-good">Done</span></div>
     <div class="act done"><span class="k">02</span><div class="b"><h4>Turn off DCT_152</h4><p>All three instances paused, including a third one inside CW Lead that was carrying 83% of its spend.</p></div><span class="chip c-good">Done</span></div>
-    <div class="act"><span class="k">03</span><div class="b"><h4>Restore age to 25-59</h4><p>Back to our standing setup. The emergency 55 cap gives up part of the 55-64 band, the best cohort in the account at $16.03 per qualified lead on DHW Lead. Advantage Audience stays off. 60-64 stays excluded unless we test it on purpose.</p></div><span class="chip c-acc">This week</span></div>
+    <div class="act"><span class="k">03</span><div class="b"><h4>Restore age to 25-59, and split the Advantage decision</h4><p>25-59 everywhere, our standing setup. The emergency 55 cap gives up part of the 55-64 band, the best cohort in the account at $16.03 per qualified lead on DHW Lead. Advantage Audience goes back on for the three Lead campaigns, where cheap volume is the job, and stays off on the three Qualified Broad campaigns, where it dilutes exactly what they exist to buy. 60-64 stays excluded unless we test it on purpose.</p></div><span class="chip c-acc">This week</span></div>
     <div class="act"><span class="k">04</span><div class="b"><h4>Run DCT_118 as a controlled test</h4><p>Duplicate the ad set so DCT_118 holds its own daily budget for two weeks. Meta says it is 31% cheaper per qualified lead, Mailchimp disagrees, and a clean split settles it without betting the budget on either.</p></div><span class="chip c-acc">This week</span></div>
     <div class="act"><span class="k">05</span><div class="b"><h4>Audit the Cardiac Wire signup page</h4><p>Page conversion fell 41% since May while three control campaigns held. Biggest remaining leak, and it is not in the ad account. Someone on your side needs to check what changed on that page.</p></div><span class="chip c-warn">Need your team</span></div>
     <div class="act"><span class="k">06</span><div class="b"><h4>Reconcile against Mailchimp</h4><p>I pulled all four lists directly, 124,402 records, so no export needed from you. Per-campaign cost per lead is blocked by the date problem below, not by access. Everything else in this page now has an email-side cross-check.</p></div><span class="chip c-acc">In progress</span></div>

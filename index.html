@@ -286,9 +286,9 @@ a{color:var(--accent)}
     <span class="stat-l">drop in signup-page conversion on CW Qualified Broad, while media got 24% cheaper.</span>
   </div>
   <div class="vcard">
-    <span class="chip c-acc">Opportunity</span>
+    <span class="chip c-warn">Needs a test</span>
     <span class="stat-v">-31%</span>
-    <span class="stat-l">lower cost per qualified lead once DCT_118 stops sharing a budget with DCT_112.</span>
+    <span class="stat-l">cheaper per qualified lead if DCT_118 gets its own budget. Meta&rsquo;s read. Your Mailchimp data does not agree yet.</span>
   </div>
 </div>
 
@@ -576,11 +576,11 @@ a{color:var(--accent)}
 
 <!-- ============ 4. BUDGET ============ -->
 <section>
-  <div class="shead"><h2>Budget is going to the wrong creative</h2><span class="chip c-acc">Action available</span></div>
+  <div class="shead"><h2>Two ads share one budget, and the platforms disagree on which is better</h2><span class="chip c-warn">Test first</span></div>
   <p class="lede">
-    Two ads share one budget inside CW Qualified Broad, and Meta is backing the wrong one.
-    DCT_112 wins on cheap leads. DCT_118 wins on qualified leads, and it is getting less
-    than half the money.
+    DCT_112 and DCT_118 sit in the same ad set and cannot hold separate budgets. DCT_112 takes
+    62% of the money. On Meta&rsquo;s numbers that is the wrong split. On your Mailchimp numbers it
+    is not. That disagreement is the finding, and it is worth resolving before moving spend.
   </p>
 
   <div class="panel">
@@ -615,11 +615,15 @@ a{color:var(--accent)}
   </div>
 
   <p>
-    DCT_118 costs more per lead and delivers <strong>two and a half times the qualified
-    rate</strong>, so 31% cheaper per qualified lead. Meta will not let two ads in one ad
-    set hold separate budgets, so the fix is to split it: duplicate the ad set with the
-    same targeting, put DCT_118 in the copy on its own daily budget, pull it from the
-    original. I will do that this week.
+    In this window Meta has DCT_118 at <strong>two and a half times</strong> the qualified rate,
+    which works out 31% cheaper per qualified lead. I then checked it against your Mailchimp
+    data, where your own qualified flag points the other way: DCT_112 at 43.8% (49 of 112
+    flagged) against DCT_118 at 36.5% (116 of 318). Both samples are small, 22 and 15 qualified
+    events on the Meta side, and the two systems count a qualified subscriber differently.
+    <strong>So I am not moving budget on this yet.</strong> Meta will not let two ads in one ad
+    set hold separate budgets, so I will duplicate the ad set with the same targeting and give
+    DCT_118 its own daily budget as a clean two-week test. If it holds up in both systems, the
+    spend follows. If it does not, we have lost nothing.
   </p>
 
   <h3>DCT_152: already handled</h3>
@@ -667,6 +671,47 @@ a{color:var(--accent)}
   </p>
 </section>
 
+<!-- ============ ESP ============ -->
+<section>
+  <div class="shead"><h2>Something is erasing your signup dates</h2><span class="chip c-crit">Found Aug 24</span></div>
+  <p class="lede">
+    I went into Mailchimp to build the per-campaign cost per lead you asked for. I could not,
+    and the reason is worth more to you than the report was.
+  </p>
+
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>List</th><th class="r">Members</th><th class="r">Still hold a signup date</th><th class="r">Share</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Cardiac Wire</td><td class="n">44,936</td><td class="n">467</td><td class="n">1.0%</td></tr>
+        <tr><td class="name">Digital Health Wire</td><td class="n">38,659</td><td class="n">0</td><td class="n">0%</td></tr>
+        <tr><td class="name">Imaging Wire</td><td class="n">39,395</td><td class="n">5,347</td><td class="n">13.6%</td></tr>
+        <tr><td class="name">Bio Wire</td><td class="n">1,412</td><td class="n">1,382</td><td class="n">97.9%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Something is rewriting every member record and stamping today&rsquo;s date on it. Asking
+    Mailchimp for Cardiac Wire members last modified before Aug 1 returns <strong>zero
+    people</strong> out of 44,936. Asking for members modified today returns all 44,936. The
+    older the list, the more of its history is already gone; Bio Wire is newest and still
+    mostly intact.
+  </p>
+  <p>
+    Two consequences. You cannot answer &ldquo;how many subscribers did this campaign bring in
+    last month&rdquo; from Mailchimp any more, which is exactly the self-serve tracker we
+    scoped on the call. And the qualified-subscriber flag only sits on about 8% of records, so
+    even a rebuilt report leans on a thin slice.
+  </p>
+  <p>
+    What I need from your side: whoever owns the Mailchimp sync should check what is re-writing
+    whole audiences. A nightly job re-uploading the full list would do this. It is fixable
+    going forward, but the dates already overwritten are not recoverable, so the sooner this is
+    looked at the less history is lost.
+  </p>
+</section>
+
 <!-- ============ ACTIONS ============ -->
 <section>
   <div class="shead"><h2>What happens next</h2></div>
@@ -675,17 +720,20 @@ a{color:var(--accent)}
     <div class="act done"><span class="k">01</span><div class="b"><h4>Close the 65-plus leak</h4><p>Advantage Audience off, age ceiling capped on every live ad set across all three Lead campaigns. Delivery data confirms zero 65-plus leads since Aug 20.</p></div><span class="chip c-good">Done</span></div>
     <div class="act done"><span class="k">02</span><div class="b"><h4>Turn off DCT_152</h4><p>All three instances paused, including a third one inside CW Lead that was carrying 83% of its spend.</p></div><span class="chip c-good">Done</span></div>
     <div class="act"><span class="k">03</span><div class="b"><h4>Widen age to 25-64</h4><p>My 55 cap cuts too deep. 55-64 is the best cohort in the account at $16.03 per qualified lead on DHW Lead. Bring it back, Advantage Audience stays off.</p></div><span class="chip c-acc">This week</span></div>
-    <div class="act"><span class="k">04</span><div class="b"><h4>Split the CW Qualified Broad ad set</h4><p>Duplicate the ad set so DCT_118 holds its own daily budget. Worth about 31% on cost per qualified lead for the spend I move.</p></div><span class="chip c-acc">This week</span></div>
+    <div class="act"><span class="k">04</span><div class="b"><h4>Run DCT_118 as a controlled test</h4><p>Duplicate the ad set so DCT_118 holds its own daily budget for two weeks. Meta says it is 31% cheaper per qualified lead, Mailchimp disagrees, and a clean split settles it without betting the budget on either.</p></div><span class="chip c-acc">This week</span></div>
     <div class="act"><span class="k">05</span><div class="b"><h4>Audit the Cardiac Wire signup page</h4><p>Page conversion fell 41% since May while three control campaigns held. Biggest remaining leak, and it is not in the ad account. Someone on your side needs to check what changed on that page.</p></div><span class="chip c-warn">Need your team</span></div>
-    <div class="act"><span class="k">06</span><div class="b"><h4>Reconcile against Mailchimp</h4><p>Cost per lead and cost per qualified lead built from Meta spend against Mailchimp counts, as asked. Send me the export and I will build it. It also settles what those 57 qualified events really are.</p></div><span class="chip c-warn">Need your team</span></div>
+    <div class="act"><span class="k">06</span><div class="b"><h4>Reconcile against Mailchimp</h4><p>I pulled all four lists directly, 124,402 records, so no export needed from you. Per-campaign cost per lead is blocked by the date problem below, not by access. Everything else in this page now has an email-side cross-check.</p></div><span class="chip c-acc">In progress</span></div>
     <div class="act"><span class="k">07</span><div class="b"><h4>Fix or retire CW Lead</h4><p>About 1% qualified, 79% retirees in August, two long delivery gaps resetting its learning phase. Rebuild it or move the budget, your call.</p></div><span class="chip c-acc">Decision needed</span></div>
-    <div class="act later"><span class="k">08</span><div class="b"><h4>Housekeeping</h4><p>Prune the 12-audience exclusion stack, several snapshots are frozen at July 9 and are likely adding to cost per lead. Tighten the conversion rule, archive seven stale conversions. All on our side.</p></div><span class="chip c-acc">Backlog</span></div>
+    <div class="act"><span class="k">08</span><div class="b"><h4>Stop the Mailchimp date overwrite</h4><p>Something re-writes every member record daily and stamps today on it. Cardiac Wire has 467 of 44,936 signup dates left, Digital Health Wire has none. Whoever owns the sync needs to look. Overwritten dates do not come back.</p></div><span class="chip c-warn">Need your team</span></div>
+    <div class="act later"><span class="k">09</span><div class="b"><h4>Housekeeping</h4><p>Prune the 12-audience exclusion stack, several snapshots are frozen at July 9 and are likely adding to cost per lead. Tighten the conversion rule, archive seven stale conversions. All on our side.</p></div><span class="chip c-acc">Backlog</span></div>
   </div>
 </section>
 
 <footer>
   <p>
-    <strong>On the numbers.</strong> Every lead and qualified count here is Meta-side. Meta
+    <strong>On the numbers.</strong> Meta and Mailchimp were checked against each other; where
+    they disagree, this page says so rather than picking the flattering one. Lead and qualified
+    counts in the campaign tables are Meta-side. Meta
     runs 10 to 20% high on leads for this account, so the Mailchimp version will read lower
     in absolute terms and point the same way. Period changes are relative percentages, not
     point differences. The 7-day attribution window means recent weeks undercount, so I

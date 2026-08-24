@@ -133,6 +133,7 @@ strong{font-weight:600;color:var(--ink)}
   text-transform:uppercase;color:var(--ink-3);margin-bottom:22px;
 }
 
+.caveat{font-size:13.5px;color:var(--ink-3);border-left:2px solid var(--rule);padding-left:14px;margin-top:16px}
 /* ---------- age chart ---------- */
 .agechart{display:grid;gap:2px}
 .agerow{
@@ -385,14 +386,15 @@ a{color:var(--accent)}
     </p>
   </div>
 
-  <h3>One correction to the fix: 55 is too tight</h3>
+  <h3>One correction to the fix: 55 is tighter than we normally run</h3>
   <p>
-    55 was the emergency setting and it cuts too deep. 55-64 is the strongest cohort in
-    the account everywhere it runs. The bad line is between 55-64 and 65-plus, not at 55.
+    55 was the emergency setting. Our standing setup on this account is 25-59, and the
+    55-64 band is the strongest cohort everywhere it runs. The bad line sits between
+    55-64 and 65-plus, not at 55.
   </p>
   <div class="tscroll">
     <table>
-      <thead><tr><th>55-64 performance</th><th class="r">Spend</th><th class="r">Leads</th><th class="r">CPL</th><th class="r">Qualified</th><th class="r">CPQL</th><th class="r">Qual rate</th></tr></thead>
+      <thead><tr><th>55-64 performance (Meta-side)</th><th class="r">Spend</th><th class="r">Leads</th><th class="r">CPL</th><th class="r">Qualified</th><th class="r">CPQL</th><th class="r">Qual rate</th></tr></thead>
       <tbody>
         <tr class="win"><td class="name">DHW Lead</td><td class="n">$353</td><td class="n">114</td><td class="n">$3.09</td><td class="n">22</td><td class="n">$16.03</td><td class="n">19.3% &#10003;</td></tr>
         <tr><td class="name">TIW Qualified Broad</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">14.3% &#10003;</td></tr>
@@ -401,9 +403,24 @@ a{color:var(--accent)}
       </tbody>
     </table>
   </div>
-  <p><strong>Take it to 25-64, Advantage Audience stays off.</strong>
-  DHW Lead's 55-64 cell is the best cell in the account at $16.03 per qualified lead.
-  No reason to keep excluding it.</p>
+  <p><strong>Back to 25-59, Advantage Audience stays off.</strong>
+  DHW Lead's 55-64 cell is the best in the account at $16.03 per qualified lead, so the
+  emergency 55 cap is leaving performance on the table.</p>
+  <p class="caveat">
+    Worth being straight about the limit of this table. Meta reports age in fixed bands and
+    55-64 is one of them, so I cannot show you how much of that $16.03 comes from 55-59
+    against 60-64. Going back to our usual 25-59 recovers the half of the band we have
+    always run and does not bet on the half I cannot evidence. If we later want 60-64, it
+    should be a deliberate test, not an assumption folded into a fix.
+  </p>
+  <p class="caveat">
+    The qualified figures in this table are Meta&rsquo;s own counts. Meta runs 10 to 20% high on
+    this account, so treat them as directional. They cannot be rebuilt from Mailchimp either,
+    because Mailchimp stores no age data at all. Age-band qualified performance is the one
+    thing only Meta can report here, and it is the one thing Meta reports least reliably.
+    The 65-plus finding itself does not depend on these numbers; it rests on lead share
+    against spend share, which is delivery data.
+  </p>
 </section>
 
 <!-- ============ 2. CPL ============ -->
@@ -620,7 +637,9 @@ a{color:var(--accent)}
     data, where your own qualified flag points the other way: DCT_112 at 43.8% (49 of 112
     flagged) against DCT_118 at 36.5% (116 of 318). Both samples are small, 22 and 15 qualified
     events on the Meta side, and the two systems count a qualified subscriber differently.
-    <strong>So I am not moving budget on this yet.</strong> Meta will not let two ads in one ad
+    The cost-per-qualified-lead figures in the table above are Meta-side and will overstate
+    performance. The Mailchimp rebuild is the one that counts, and it is blocked until the date
+    problem below is fixed. <strong>So I am not moving budget on this yet.</strong> Meta will not let two ads in one ad
     set hold separate budgets, so I will duplicate the ad set with the same targeting and give
     DCT_118 its own daily budget as a clean two-week test. If it holds up in both systems, the
     spend follows. If it does not, we have lost nothing.
@@ -719,7 +738,7 @@ a{color:var(--accent)}
   <div class="actions">
     <div class="act done"><span class="k">01</span><div class="b"><h4>Close the 65-plus leak</h4><p>Advantage Audience off, age ceiling capped on every live ad set across all three Lead campaigns. Delivery data confirms zero 65-plus leads since Aug 20.</p></div><span class="chip c-good">Done</span></div>
     <div class="act done"><span class="k">02</span><div class="b"><h4>Turn off DCT_152</h4><p>All three instances paused, including a third one inside CW Lead that was carrying 83% of its spend.</p></div><span class="chip c-good">Done</span></div>
-    <div class="act"><span class="k">03</span><div class="b"><h4>Widen age to 25-64</h4><p>My 55 cap cuts too deep. 55-64 is the best cohort in the account at $16.03 per qualified lead on DHW Lead. Bring it back, Advantage Audience stays off.</p></div><span class="chip c-acc">This week</span></div>
+    <div class="act"><span class="k">03</span><div class="b"><h4>Restore age to 25-59</h4><p>Back to our standing setup. The emergency 55 cap gives up part of the 55-64 band, the best cohort in the account at $16.03 per qualified lead on DHW Lead. Advantage Audience stays off. 60-64 stays excluded unless we test it on purpose.</p></div><span class="chip c-acc">This week</span></div>
     <div class="act"><span class="k">04</span><div class="b"><h4>Run DCT_118 as a controlled test</h4><p>Duplicate the ad set so DCT_118 holds its own daily budget for two weeks. Meta says it is 31% cheaper per qualified lead, Mailchimp disagrees, and a clean split settles it without betting the budget on either.</p></div><span class="chip c-acc">This week</span></div>
     <div class="act"><span class="k">05</span><div class="b"><h4>Audit the Cardiac Wire signup page</h4><p>Page conversion fell 41% since May while three control campaigns held. Biggest remaining leak, and it is not in the ad account. Someone on your side needs to check what changed on that page.</p></div><span class="chip c-warn">Need your team</span></div>
     <div class="act"><span class="k">06</span><div class="b"><h4>Reconcile against Mailchimp</h4><p>I pulled all four lists directly, 124,402 records, so no export needed from you. Per-campaign cost per lead is blocked by the date problem below, not by access. Everything else in this page now has an email-side cross-check.</p></div><span class="chip c-acc">In progress</span></div>
@@ -732,8 +751,12 @@ a{color:var(--accent)}
 <footer>
   <p>
     <strong>On the numbers.</strong> Meta and Mailchimp were checked against each other; where
-    they disagree, this page says so rather than picking the flattering one. Lead and qualified
-    counts in the campaign tables are Meta-side. Meta
+    they disagree, this page says so rather than picking the flattering one. Going forward the
+    standing method is spend from Meta, qualified counts from Mailchimp, because Meta runs 10
+    to 20% high on this account. The qualified figures still on this page are Meta-side and
+    marked as such, for two reasons: Mailchimp holds no age data, so age-band analysis cannot
+    be built from it at all, and the per-campaign rebuild is blocked until the signup-date
+    overwrite is resolved. Meta
     runs 10 to 20% high on leads for this account, so the Mailchimp version will read lower
     in absolute terms and point the same way. Period changes are relative percentages, not
     point differences. The 7-day attribution window means recent weeks undercount, so I
